@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { FileUploadService } from './file-upload.service';
 
 
+
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',

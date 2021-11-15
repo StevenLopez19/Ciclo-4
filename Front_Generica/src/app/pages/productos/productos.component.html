@@ -18,11 +18,29 @@
 
   <table class="compact nowrap table table-dark table-hover table-sm" datatable [dtOptions]="dtOptions"
     [dtTrigger]="dtTrigger">
+
+    <thead>
+      <tr>
+      <th>ID Producto</th>
+      <th>Código Producto</th>
+      <th>IVA Compra</th>
+      <th>NIT Proveedor</th>
+      <th>Nombre Producto</th>
+      <th>Precio Compra</th>
+      <th>Precio Venta</th>
+      
+      </tr>
+      
+      </thead>
     <tbody>
-      <tr *ngFor="let universidad of contenido" class="">
-        <td>{{universidad.alpha_two_code}}</td>
-        <td>{{universidad.name}}</td>
-        <td>{{universidad.country}}</td>
+      <tr *ngFor="let Producto of contenido" class="">
+        <td>{{Producto.id}}</td>
+        <td>{{Producto.codigoproducto}}</td>
+        <td>{{Producto.ivacompra}}</td>
+        <td>{{Producto.nitproveedor}}</td>
+        <td>{{Producto.nombreproducto}}</td>
+        <td>{{Producto.preciocompra}}</td>
+        <td>{{Producto.precioventa}}</td>
       </tr>
     </tbody>
   </table>
