@@ -27,6 +27,7 @@ export class ProductosComponent implements OnInit {
   contenido: any;
   //url api get
   urlapiGET: string = "http://localhost:8080/api/productos";
+  urlapiPOST: string = "http://localhost:8080/api/productos";
 
   //FUNCIÓN DE CONTROL DE ERRORES
   handleError(error: HttpErrorResponse) {
@@ -43,7 +44,7 @@ export class ProductosComponent implements OnInit {
     return throwError(errorMessage);
   }
 
-  //aliminando objeto revisor de cambios de la tabla
+  //eliminando objeto revisor de cambios de la tabla
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
@@ -66,38 +67,23 @@ export class ProductosComponent implements OnInit {
 
     //Opciones especiales de la tabla, localización y caracteristicas
     this.dtOptions = {
-      pagingType: 'full_numbers',
+      pagingType: 'all_products',
       columns: [{
-        title: 'Code',
+        title: 'id',
       }, {
-        title: 'Nombre',
+        title: 'codigo',
       }, {
-        title: 'Pais',
-      }],
+        title: 'nit',
+      }, {
+        title: 'nombre',
+      }, {
+        title: 'pcompra',
+      }, {
+        title: 'pventa',
+      }
+    ],
       pageLength: 10,
       responsive: true,
-      language: {
-        processing: "Procesando...",
-        search: "Buscar:",
-        lengthMenu: "Mostrar _MENU_ elementos",
-        info: "Mostrando desde _START_ al _END_ de _TOTAL_ elementos",
-        infoEmpty: "Mostrando ningún elemento.",
-        infoFiltered: "(filtrado _MAX_ elementos total)",
-        infoPostFix: "",
-        loadingRecords: "Cargando registros...",
-        zeroRecords: "No se encontraron registros",
-        emptyTable: "No hay datos disponibles en la tabla",
-        paginate: {
-          first: "Primero",
-          previous: "Anterior",
-          next: "Siguiente",
-          last: "Último"
-        },
-        aria: {
-          sortAscending: ": Activar para ordenar la tabla en orden ascendente",
-          sortDescending: ": Activar para ordenar la tabla en orden descendente"
-        }
-      }
     };
   }
 
@@ -119,7 +105,7 @@ export class ProductosComponent implements OnInit {
     this.file = event.target.files[0];
   }
 
-  // Cuandop haga click, iniciar proceso de envio
+  // Cuando haga click, iniciar proceso de envio
   async onUpload() {
     console.log(this.file);
     this.resultados = await this.fileUploadService.upload(this.file);
