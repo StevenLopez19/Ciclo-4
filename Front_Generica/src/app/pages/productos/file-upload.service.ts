@@ -9,7 +9,7 @@ import { ProductosComponent } from './productos.component';
 export class FileUploadService {
 
   // API url
-  baseApiUrl = "http://localhost:8080/api/usuarios";
+  baseApiUrl = "http://localhost:8080/api/productos";
 
   //inicializando objeto http
   constructor(private http: HttpClient) { }

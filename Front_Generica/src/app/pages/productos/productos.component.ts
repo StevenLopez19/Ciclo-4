@@ -25,7 +25,7 @@ export class ProductosComponent implements OnInit {
   //variable contenedora de contenidos
   contenido: any;
   //url api get
-  urlapiGET: string = "http://universities.hipolabs.com/search?name=universidad";
+  urlapiGET: string = "http://localhost:8080/api/productos";
 
   //FUNCIÓN DE CONTROL DE ERRORES
   handleError(error: HttpErrorResponse) {
