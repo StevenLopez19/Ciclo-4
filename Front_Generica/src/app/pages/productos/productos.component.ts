@@ -25,7 +25,7 @@ export class ProductosComponent implements OnInit {
   //variable contenedora de contenidos
   contenido: any;
   //url api get
-  urlapiGET: string = "http://universities.hipolabs.com/search?name=universidad";
+  urlapiGET: string = "http://localhost:8080/api/productos";
 
   //FUNCIÓN DE CONTROL DE ERRORES
   handleError(error: HttpErrorResponse) {
@@ -67,11 +67,19 @@ export class ProductosComponent implements OnInit {
     this.dtOptions = {
       pagingType: 'full_numbers',
       columns: [{
-        title: 'Code',
+        title: 'Id',
+      }, {
+        title: 'Código',
+      }, {
+        title: 'Iva Compra',
+      }, {
+        title: 'Nit Proveedor',
       }, {
         title: 'Nombre',
       }, {
-        title: 'Pais',
+        title: 'Precio Compra',
+      }, {
+        title: 'Precio Venta',
       }],
       pageLength: 10,
       responsive: true,

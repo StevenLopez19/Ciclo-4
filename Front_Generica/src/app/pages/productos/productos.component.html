@@ -19,10 +19,14 @@
   <table class="compact nowrap table table-dark table-hover table-sm" datatable [dtOptions]="dtOptions"
     [dtTrigger]="dtTrigger">
     <tbody>
-      <tr *ngFor="let universidad of contenido" class="">
-        <td>{{universidad.alpha_two_code}}</td>
-        <td>{{universidad.name}}</td>
-        <td>{{universidad.country}}</td>
+      <tr *ngFor="let productos of contenido" class="">
+        <td>{{productos.id}}</td>
+        <td>{{productos.codigoproducto}}</td>
+        <td>{{productos.ivacompra}}</td>
+        <td>{{productos.nitproveedor}}</td>
+        <td>{{productos.nombreproducto}}</td>
+        <td>{{productos.preciocompra}}</td>
+        <td>{{productos.precioventa}}</td>
       </tr>
     </tbody>
   </table>
