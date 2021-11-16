@@ -19,6 +19,7 @@ import { ClientesComponent } from './pages/clientes/clientes.component';
 import { VentasComponent } from './pages/ventas/ventas.component';
 import { ReportesComponent } from './pages/reportes/reportes.component';
 import { ConsolidacionComponent } from './pages/consolidacion/consolidacion.component';
+import { FileUploadService } from "./pages/productos/file-upload.service";
 
 @NgModule({
   imports: [

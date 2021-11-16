@@ -95,21 +95,21 @@ export class ProductosComponent implements OnInit {
   resultados: any;
 
   // Variable to store shortLink from api response
-  file!: File; //variable para almacenar los datos
+  file: File= null; //variable para almacenar los datos
 
   //variable de confimación de recepcion de archivo
   recibido: boolean = false;
 
   // En caso de seleccionar archivo, escojer el primer archivo
-  onChange(event: any) {
-    this.file = event.target.files[0];
+  onChange($event: any) : void {
+    this.file = $event.target.files[0];
   }
-
+  
   // Cuando haga click, iniciar proceso de envio
   async onUpload() {
     console.log(this.file);
     this.resultados = await this.fileUploadService.upload(this.file);
     console.log(this.resultados);
-  }
-
+ }
+ 
 }
