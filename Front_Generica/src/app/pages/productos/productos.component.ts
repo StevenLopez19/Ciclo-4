@@ -146,29 +146,8 @@ export class ProductosComponent implements OnInit {
   }
 
 
-
-  postData() {
-    this.resultados.forEach(producto => {
-      this.res2=Array;
-      this.objetohttp
-      .post<any>(
-        "http://localhost:8080/api/productos",
-
-        {
-          "codigoproducto": this.resultados[0],
-          "ivacompra": this.resultados[1],
-          "nitproveedor": this.resultados[2],
-          "nombreproducto": this.resultados[3],
-          "preciocompra": this.resultados[4],
-          "precioventa": this.resultados[5],
-        }, { observe: 'response' }
-      ).subscribe(response => {
-        this.codigoRespuesta = response.status;
-      })
-    });
-    
-  }
-
-
 }
+
+
+
 
