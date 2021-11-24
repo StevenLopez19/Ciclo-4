@@ -45,7 +45,7 @@ export class ProductosComponent implements OnInit {
   }
 
   //eliminando objeto revisor de cambios de la tabla
-  ngOnDestroy(): void {
+  ngOnDestroy(): void { 
     this.dtTrigger.unsubscribe();
   }
 
@@ -76,16 +76,16 @@ export class ProductosComponent implements OnInit {
           title: "Código",
         },
         {
+          title: "Nombre Producto",
+        },
+        {
+          title: "Nit Proveedor", 
+        },
+        {
+          title: "Precio de Compra",
+        },
+        {
           title: "Iva Compra",
-        },
-        {
-          title: "Nit Proveedor",
-        },
-        {
-          title: "Nombre",
-        },
-        {
-          title: "Precio Compra",
         },
         {
           title: "Precio Venta",
