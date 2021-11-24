@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ import com.misiontic2022.grupo5.tiendagenerica.spring.data.mongodb.repository.Pr
 @RequestMapping("/api")
 public class ProductoController {
 
+	
 	@Autowired
 	ProductoRepository productoRepository;
 
@@ -67,10 +69,11 @@ public class ProductoController {
 
 	@PostMapping("/productos")
 	public ResponseEntity<Producto> createProducto(@RequestBody Producto product) {
+		
 		try {
 			Producto _producto = productoRepository.save(
-					new Producto(product.getCodigoproducto(), product.getIvacompra(), product.getNitproveedor(), product.getNombreproducto(),
-							product.getPreciocompra(), product.getPrecioventa()));
+					new Producto(product.getCodigoproducto(), product.getNombreproducto(), product.getNitproveedor(),product.getPreciocompra(), product.getIvacompra(),  
+							 product.getPrecioventa()));
 			return new ResponseEntity<>(_producto, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

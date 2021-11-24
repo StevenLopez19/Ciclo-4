@@ -1,5 +1,4 @@
-		package com.misiontic2022.grupo5.tiendagenerica.spring.data.mongodb.model;
-
+package com.misiontic2022.grupo5.tiendagenerica.spring.data.mongodb.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,24 +10,24 @@ public class Producto {
 	private String id;
 
 	private Long codigoproducto;
-	private Double ivacompra;
-	private Long nitproveedor;
 	private String nombreproducto;
+	private Long nitproveedor;
 	private Double preciocompra;
+	private Double ivacompra;
 	private Double precioventa;
 
 	public Producto() {
 
 	}
 
-	public Producto(Long codigoproducto, Double ivacompra, Long nitproveedor, String nombreproducto,
-			Double preciocompra, Double precioventa) {
+	public Producto(Long codigoproducto, String nombreproducto, Long nitproveedor, Double preciocompra,
+			Double ivacompra, Double precioventa) {
 		super();
 		this.codigoproducto = codigoproducto;
-		this.ivacompra = ivacompra;
-		this.nitproveedor = nitproveedor;
 		this.nombreproducto = nombreproducto;
+		this.nitproveedor = nitproveedor;
 		this.preciocompra = preciocompra;
+		this.ivacompra = ivacompra;
 		this.precioventa = precioventa;
 	}
 
