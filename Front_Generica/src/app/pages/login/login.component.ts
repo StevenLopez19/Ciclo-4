@@ -31,11 +31,11 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/clientes'])
       } else {
         this.correcto = 0;
-        this.showNotification('top', 'right',2);
+        this.showNotification('top', 'center',2);
       }
     } else {
       this.correcto = 0;
-      this.showNotification('top', 'right',2);
+      this.showNotification('top', 'center',2);
     }
   }
 

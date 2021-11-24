@@ -30,16 +30,18 @@ export class FileUploadService {
 
         for (let lineaactual of separados) {
           lineaactual.replace(";", ",");
-          let columnas = lineaactual.split(",", 4);
+          let columnas = lineaactual.split(",", 6);
           this.http.post(
             this.baseApiUrl,
             {
               precioventa: columnas[5],
-              preciocompra: columnas[4],
-              nombreproducto: columnas[3],
-              nitproveedor: columnas[2],
-              ivacompra: columnas[1],
+              ivacompra: columnas[4],
+              preciocompra: columnas[3],
+              nitproveedor: columnas[2],  
+              nombreproducto: columnas[1],
               codigoproducto: columnas[0]
+              
+              
             },
             { observe: 'response' }).subscribe(
               (response: any) => {
