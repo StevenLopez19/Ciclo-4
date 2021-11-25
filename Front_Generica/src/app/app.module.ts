@@ -19,11 +19,7 @@ import { ClientesComponent } from './pages/clientes/clientes.component';
 import { VentasComponent } from './pages/ventas/ventas.component';
 import { ReportesComponent } from './pages/reportes/reportes.component';
 import { ConsolidacionComponent } from './pages/consolidacion/consolidacion.component';
-<<<<<<< HEAD
 import { FileUploadService } from "./pages/productos/file-upload.service";
-=======
-import { BorrarComponent } from './pages/clientes/borrar/borrar.component';
->>>>>>> origin/SL
 
 @NgModule({
   imports: [
@@ -40,7 +36,7 @@ import { BorrarComponent } from './pages/clientes/borrar/borrar.component';
     HttpClientModule,
     DataTablesModule
   ],
-  declarations: [AppComponent, AdminLayoutComponent, LoginComponent, ProductosComponent, ClientesComponent, VentasComponent, ReportesComponent, ConsolidacionComponent, BorrarComponent],
+  declarations: [AppComponent, AdminLayoutComponent, LoginComponent, ProductosComponent, ClientesComponent, VentasComponent, ReportesComponent, ConsolidacionComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

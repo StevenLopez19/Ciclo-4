@@ -9,9 +9,9 @@
     </button>
   </div>
   <div class="container">
-    <h5 *ngFor="let dato of resultados; let i = index">
+    <h3 *ngFor="let dato of resultados; let i = index">
       Dato {{i}} obtuvo codigo {{dato[0]}}
-    </h5>
+    </h3>
   </div>
 
 
@@ -32,7 +32,6 @@
       
       </thead>
     <tbody>
-<<<<<<< HEAD
       <tr *ngFor="let Producto of contenido" class="">
         <td>{{Producto.id}}</td>
         <td>{{Producto.codigoproducto}}</td>
@@ -41,16 +40,6 @@
         <td>{{Producto.nombreproducto}}</td>
         <td>{{Producto.preciocompra}}</td>
         <td>{{Producto.precioventa}}</td>
-=======
-      <tr *ngFor="let productos of contenido" class="">
-        <td>{{productos.id}}</td>
-        <td>{{productos.codigoproducto}}</td>
-        <td>{{productos.nombreproducto}}</td>
-        <td>{{productos.nitproveedor}}</td>
-        <td>{{productos.preciocompra}}</td>
-        <td>{{productos.ivacompra}}</td>
-        <td>{{productos.precioventa}}</td>
->>>>>>> origin/SL
       </tr>
     </tbody>
   </table>
