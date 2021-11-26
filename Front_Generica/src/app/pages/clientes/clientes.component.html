@@ -1,29 +1,78 @@
 <div class=" content">
 
     <div class="container">
-   
+
     </div>
-    
 
-  <button style="margin: 50px" class="btn btn-success btn-lg">Mostrar</button>
-  <button style="margin: 40px" class="btn btn-success btn-lg">Crear</button>
-  <button style="margin: 50px" class="btn btn-success btn-lg">Actualizar</button>
-  <button style="margin: 40px" class="btn btn-success btn-lg">Borrar</button>
 
-   
-   
-   
-   
-    <table class="compact nowrap table table-dark table-hover table-sm" datatable [dtOptions]="dtOptions"
-      [dtTrigger]="dtTrigger">
-      <tbody>
-        <tr *ngFor="let clientes of contenido" class="">
-          <td>{{clientes.cedulacliente}}</td>
+
+
+  <button style="margin: 40px" class="btn btn-success btn-lg" (click)="crearCliente()"> Crear </button>
+  <button style="margin: 50px" class="btn btn-success btn-lg" (click)="actualizarClientes()"> Actualizar</button>
+  <button style="margin: 40px" class="btn btn-success btn-lg" (click)="borrarClientes()"> Borrar</button>
+  <form id="userForm" [formGroup]="clienteForm">
+    <div class="form-group">
+      <label for="name">Nombres*</label>
+      <input type="text" id="name" formControlName="nombrecliente" class="form-control"
+        fullWidth />
+      </div>
+      <div class="form-group">
+        <label for="cedula">Cedula</label>
+        <input type="number" id="cedula" formControlName="cedulacliente" class="form-control"
+          fullWidth />
+        </div>
+      <div class="form-group">
+          <label for="direccion">Direccion</label>
+          <input type="text" id="direccion" formControlName="direccioncliente" class="form-control"
+            fullWidth />
+        </div>
+        <div class="form-group">
+          <label for="telefono">Telefono</label>
+          <input type="number" id="telefono" formControlName="telefonocliente" class="form-control"
+            fullWidth />
+        </div>
+        <div class="form-group">
+          <label for="email">E-Mail</label>
+          <input type="email" id="email" formControlName="emailcliente" class="form-control"
+            fullWidth />
+        </div>
+
+  </form>
+
+
+
+
+
+
+
+
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Acciones</th>
+        <th scope="col">Cedula</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Direccion</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let clientes of contenido">
+
+        <td><button class="btn btn-success"  (click)="consultarClientes(clientes)"> Mostrar</button></td>
+        <td>{{clientes.cedulacliente}}</td>
           <td>{{clientes.nombrecliente}}</td>
           <td>{{clientes.direccioncliente}}</td>
           <td>{{clientes.telefonocliente}}</td>
           <td>{{clientes.emailcliente}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
