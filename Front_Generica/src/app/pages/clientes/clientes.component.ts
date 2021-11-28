@@ -1,8 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Subject, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
-import { ArrayType } from "@angular/compiler";
+import { Subject } from 'rxjs';
+import { ClientesService } from './clientes.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-clientes',
@@ -11,11 +12,12 @@ import { ArrayType } from "@angular/compiler";
 })
 export class ClientesComponent implements OnInit {
 
-  constructor( 
-  private objetohttp: HttpClient)
-  { }
 
+  //Función constructora
+  constructor(private objetohttp: HttpClient, private clientesService:ClientesService, private toastr:ToastrService) { }
 
+  ///////////////// GET /////////////////////////////
+  //opciones y objeto revisor de la tabla
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
 
@@ -26,62 +28,45 @@ export class ClientesComponent implements OnInit {
   //url api get
   urlapiGET: string = "http://localhost:8080/api/clientes";
 
-  //FUNCIÓN DE CONTROL DE ERRORES
-  handleError(error: HttpErrorResponse) {
-    let errorMessage = "Error desconocido!";
-    if (error.error instanceof ErrorEvent) {
-      // Errores del lado del cliente
-      errorMessage = `Error: ${error.error.message}\n ${error.status}`;
-    } else {
-      // Errores del lado del servidor
-      errorMessage = `Codigo de Error: ${error.status} \nMensaje: ${error.message}`;
-    }
-    //MOSTRANDO UN ERROR EN UNA ALERTA
-    //window.alert(errorMessage);
-    return throwError(errorMessage);
-  }
-
-  //eliminando objeto revisor de cambios de la tabla
-  ngOnDestroy(): void { 
+  //aliminando objeto revisor de cambios de la tabla
+  ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
 
-  ///////////////// METODOS ANGULAR /////////////////////////////
-
   //FUNCIÓN DE EJECUCIÓN ANTES DE LA CARGA DE LA PAGINA
   ngOnInit(): void {
-    //utilizando el servicio en la url
-    this.res = this.objetohttp
-      .get(this.urlapiGET)
-      .pipe(catchError(this.handleError));
+    try { 
+      this.res = this.objetohttp.get(this.urlapiGET);
+      this.res.subscribe((datos: any[]) => {
+        this.contenido = datos;
+        console.log(this.contenido);
+        this.dtTrigger.next(this.dtOptions);
+      });
+    }
+    catch (e) {
+      console.error("BK DOWN");
+      this.contenido=[]
+    }
 
-    //suscribe el archivo json y lo convierte
-    this.res.subscribe((datos: any[]) => {
-      this.contenido = datos;
-      console.log(this.contenido);
-      this.dtTrigger.next(this.dtOptions);
-    });
 
     //Opciones especiales de la tabla, localización y caracteristicas
     this.dtOptions = {
-      pagingType: "full_numbers",
-      columns: [
-        {
-          title: "Cédula",
-        },
-        {
-          title: "Nombre",
-        },
-        {
-          title: "Dirección", 
-        },
-        {
-          title: "Teléfono",
-        },
-        {
-          title: "Email",
-        },
-        
+      pagingType: 'full_numbers',
+      columns: [{
+        title: 'CÉDULA',
+      },
+      {
+        title: 'NOMBRE',
+      },
+      {
+        title: 'DIRECCIÓN',
+      },
+      {
+        title: 'TELÉFONO',
+      },
+      {
+        title: 'EMAIL',
+      },
       ],
       pageLength: 10,
       responsive: true,
@@ -100,20 +85,133 @@ export class ClientesComponent implements OnInit {
           first: "Primero",
           previous: "Anterior",
           next: "Siguiente",
-          last: "Último",
+          last: "Último"
         },
         aria: {
           sortAscending: ": Activar para ordenar la tabla en orden ascendente",
-          sortDescending:
-            ": Activar para ordenar la tabla en orden descendente",
-        },
-      },
+          sortDescending: ": Activar para ordenar la tabla en orden descendente"
+        }
+      }
     };
   }
 
 
-  }
+
+    
+  //POST// 
+  cedulacliente:"";
+  nombrecliente:"";
+  direccioncliente:"";
+  telefonocliente:"";
+  emailcliente:"";
+  cc:"";
+  codigorespuesta:number
 
 
 
+  crearCliente(){
+  this.objetohttp.post<any>(
+    "http://localhost:8080/api/clientes",
+    {
+      "cedulacliente":this.cedulacliente,
+      "nombrecliente":this.nombrecliente,
+      "direccioncliente":this.direccioncliente,
+      "telefonocliente":this.telefonocliente,
+      "emailcliente":this.emailcliente
+    },
+    {observe:'response'}
+    ).subscribe(response=>{
+      this.codigorespuesta=response.status;
+  });
+  console.log(this.codigorespuesta);
+  this.showNotification('top','center',1);
+  window.location.reload();
+}
+
+//GET BUSCAR//
+buscarCliente(){
+this.clientesService.buscar(this.cedulacliente).subscribe((cliente:any[])=>{
+console.log(cliente);
+
+this.nombrecliente=cliente[0].nombrecliente;
+this.direccioncliente=cliente[0].direccioncliente;
+this.telefonocliente=cliente[0].telefonocliente;
+this.emailcliente=cliente[0].emailcliente;
+
+});
+}
+
+
+
+
+actualizarCliente(){
+let cliente={
+  cedulacliente:this.cedulacliente,
+  nombrecliente:this.nombrecliente,
+  direccioncliente:this.direccioncliente,
+  telefonocliente:this.telefonocliente,
+  emailcliente:this.emailcliente
+};
+
+this.clientesService.actualizar(this.cedulacliente,cliente).subscribe((cliente)=>{
+  this.nombrecliente="";
+  this.direccioncliente="";
+  this.telefonocliente="";
+  this.emailcliente="";
+
+  this.showNotification('top','center',3);
+  this.nombrecliente="";
+  this.direccioncliente="";
+  this.telefonocliente="";
+  this.emailcliente="";
+  window.location.reload();
+
+})
+}
+
+
+//DELETE//
+borrarCliente(){
+this.clientesService.borrar(this.cedulacliente).subscribe(()=>{
+  this.cedulacliente="";
+  this.showNotification('top','center',2);
+  window.location.reload();
+})
+}
+
+showNotification(from, align,type) {
+  switch (type) {
+    case 1:
+      this.toastr.success('<span class="tim-icons icon-bell-55" [data-notify]="icon"></span><b>Cliente Creado con éxito</b>', '', {
+        disableTimeOut: false,
+        closeButton: true,
+        enableHtml: true,
+        toastClass: 'alert alert-success alert-with-icon',
+        positionClass: 'toast-' + from + '-' + align
+      });
+      break;
+    case 2:
+      this.toastr.error('<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> <b>Cliente elimiando con éxito</b>', '', {
+        disableTimeOut: false,
+        enableHtml: true,
+        closeButton: true,
+        toastClass: 'alert alert-danger alert-with-icon',
+        positionClass: 'toast-' + from + '-' + align
+      });
+      break;
+      case 3:
+        this.toastr.error('<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> <b>Cliente actualizado con éxito</b>', '', {
+          disableTimeOut: false,
+          enableHtml: true,
+          closeButton: true,
+          toastClass: 'alert alert-warning alert-with-icon',
+          positionClass: 'toast-' + from + '-' + align
+        });
+        break;
+    default:
+      break;
+
+}
+}
+}
 

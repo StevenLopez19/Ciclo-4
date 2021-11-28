@@ -27,15 +27,15 @@ export class LoginComponent implements OnInit {
       if (this.pass === this.passcorrecto) {
         this.correcto = 1;
         this.showNotification('top', 'right',1);
-
-        this.router.navigate(['/clientes'])
+        
+        this.router.navigate(['/dashboard'])
       } else {
         this.correcto = 0;
-        this.showNotification('top', 'center',2);
+        this.showNotification('top', 'right',2);
       }
     } else {
       this.correcto = 0;
-      this.showNotification('top', 'center',2);
+      this.showNotification('top', 'right',2);
     }
   }
 
@@ -59,7 +59,6 @@ export class LoginComponent implements OnInit {
           positionClass: 'toast-' + from + '-' + align
         });
         break;
-        
       default:
         break;
     }

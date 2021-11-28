@@ -1,21 +1,19 @@
-import { Component, OnInit } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Subject, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
-import { FileUploadService } from "./file-upload.service";
-import { ArrayType } from "@angular/compiler";
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Subject, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { FileUploadService } from './file-upload.service';
+
 
 @Component({
-  selector: "app-productos",
-  templateUrl: "./productos.component.html",
-  styleUrls: ["./productos.component.scss"],
+  selector: 'app-productos',
+  templateUrl: './productos.component.html',
+  styleUrls: ['./productos.component.scss']
 })
 export class ProductosComponent implements OnInit {
+
   //Función constructora
-  constructor(
-    private objetohttp: HttpClient,
-    private fileUploadService: FileUploadService
-  ) { }
+  constructor(private objetohttp: HttpClient, private fileUploadService: FileUploadService) { }
 
   ///////////////// GET /////////////////////////////
   //opciones y objeto revisor de la tabla
@@ -29,36 +27,20 @@ export class ProductosComponent implements OnInit {
   //url api get
   urlapiGET: string = "http://localhost:8080/api/productos";
 
-  //FUNCIÓN DE CONTROL DE ERRORES
-  handleError(error: HttpErrorResponse) {
-    let errorMessage = "Error desconocido!";
-    if (error.error instanceof ErrorEvent) {
-      // Errores del lado del cliente
-      errorMessage = `Error: ${error.error.message}\n ${error.status}`;
-    } else {
-      // Errores del lado del servidor
-      errorMessage = `Codigo de Error: ${error.status} \nMensaje: ${error.message}`;
-    }
-    //MOSTRANDO UN ERROR EN UNA ALERTA
-    //window.alert(errorMessage);
-    return throwError(errorMessage);
-  }
-
-  //eliminando objeto revisor de cambios de la tabla
-  ngOnDestroy(): void { 
+  //aliminando objeto revisor de cambios de la tabla
+  ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
+
+
 
   ///////////////// METODOS ANGULAR /////////////////////////////
 
   //FUNCIÓN DE EJECUCIÓN ANTES DE LA CARGA DE LA PAGINA
   ngOnInit(): void {
-    //utilizando el servicio en la url
-    this.res = this.objetohttp
-      .get(this.urlapiGET)
-      .pipe(catchError(this.handleError));
 
-    //suscribe el archivo json y lo convierte
+    this.res = this.objetohttp.get(this.urlapiGET);
+    //suscribe el archivo json y lo convierte   
     this.res.subscribe((datos: any[]) => {
       this.contenido = datos;
       console.log(this.contenido);
@@ -67,30 +49,26 @@ export class ProductosComponent implements OnInit {
 
     //Opciones especiales de la tabla, localización y caracteristicas
     this.dtOptions = {
-      pagingType: "full_numbers",
-      columns: [
-        {
-          title: "Id",
-        },
-        {
-          title: "Código",
-        },
-        {
-          title: "Nombre Producto",
-        },
-        {
-          title: "Nit Proveedor", 
-        },
-        {
-          title: "Precio de Compra",
-        },
-        {
-          title: "Iva Compra",
-        },
-        {
-          title: "Precio Venta",
-        },
-      ],
+      pagingType: 'full_numbers',
+      columns: [{
+        title: 'CÓDIGO',
+      }, 
+      {
+        title: 'NOMBRE',
+      },
+      {
+        title: 'NIT PROVEEDOR',
+      },
+      {
+        title: 'PRECIO COMPRA',
+      },
+      {
+        title: 'IVA COMPRA',
+      },
+      {
+        title: 'PRECIO VENTA',
+      },
+    ],
       pageLength: 10,
       responsive: true,
       language: {
@@ -108,20 +86,17 @@ export class ProductosComponent implements OnInit {
           first: "Primero",
           previous: "Anterior",
           next: "Siguiente",
-          last: "Último",
+          last: "Último"
         },
         aria: {
           sortAscending: ": Activar para ordenar la tabla en orden ascendente",
-          sortDescending:
-            ": Activar para ordenar la tabla en orden descendente",
-        },
-      },
+          sortDescending: ": Activar para ordenar la tabla en orden descendente"
+        }
+      }
     };
   }
 
   ///////////////// POST /////////////////////////////
-  codigoRespuesta: number = 0;
-
   res2: any;
 
   //lista que almacenara los resultados de la insercion de cada linea
@@ -130,9 +105,7 @@ export class ProductosComponent implements OnInit {
   // Variable to store shortLink from api response
   file!: File; //variable para almacenar los datos
 
-  //variable de confimación de recepcion de archivo
-  recibido: boolean = false;
-
+z
   // En caso de seleccionar archivo, escojer el primer archivo
   onChange(event: any) {
     this.file = event.target.files[0];
@@ -145,9 +118,4 @@ export class ProductosComponent implements OnInit {
     console.log(this.resultados);
   }
 
-
 }
-
-
-
-

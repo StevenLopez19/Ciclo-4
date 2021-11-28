@@ -1,29 +1,122 @@
 <div class=" content">
 
-    <div class="container">
-   
-    </div>
-    
 
-  <button style="margin: 50px" class="btn btn-success btn-lg">Mostrar</button>
-  <button style="margin: 40px" class="btn btn-success btn-lg">Crear</button>
-  <button style="margin: 50px" class="btn btn-success btn-lg">Actualizar</button>
-  <button style="margin: 40px" class="btn btn-success btn-lg">Borrar</button>
-
-   
-   
-   
-   
-    <table class="compact nowrap table table-dark table-hover table-sm" datatable [dtOptions]="dtOptions"
-      [dtTrigger]="dtTrigger">
-      <tbody>
-        <tr *ngFor="let clientes of contenido" class="">
-          <td>{{clientes.cedulacliente}}</td>
-          <td>{{clientes.nombrecliente}}</td>
-          <td>{{clientes.direccioncliente}}</td>
-          <td>{{clientes.telefonocliente}}</td>
-          <td>{{clientes.emailcliente}}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+      <div class=" card">
+          <div class=" card-header">
+              <h4 class=" card-title"> <i class="fas fa-file-upload"></i> Inserción de nuevos clientes</h4>
+              <div class="input-group mb-3">
+                <span 
+                class="input-group-text" 
+                id="basic-addon1">
+                <i class="fas fa-id-card"></i>
+            </span>
+                <input 
+                type="text"
+                placeholder="Cédula" 
+                aria-label="Cédula"
+                aria-describedby="basic-addon1"
+                [(ngModel)]="cedulacliente"
+                >
+                <span class="input-group-text" 
+                id="basic-addon1">
+                <i class="fas fa-signature"></i>
+            </span>
+                <input type="text"  
+                placeholder="Nombre" 
+                aria-label="Nombre"
+                aria-describedby="basic-addon1"
+                [(ngModel)]="nombrecliente"
+                >
+                <span class="input-group-text" 
+                id="basic-addon1">
+                <i class="fas fa-map-marker-alt"></i>
+            </span>
+                <input type="text"  
+                placeholder="Dirección" 
+                aria-label="Dirección"
+                aria-describedby="basic-addon1"
+                [(ngModel)]="direccioncliente"
+                >
+            </div>
+            <div class="input-group mb-3">
+                <span 
+                class="input-group-text" 
+                id="basic-addon1">
+                <i class="fas fa-phone-alt"></i>
+            </span>
+                <input 
+                type="text"  
+                placeholder="Teléfono" 
+                aria-label="Teléfono"
+                aria-describedby="basic-addon1"
+                [(ngModel)]="telefonocliente"
+                > 
+                <span 
+                class="input-group-text" 
+                id="basic-addon1">
+                <i class="fas fa-envelope"></i>
+            </span>
+                <input 
+                type="text" 
+                placeholder="Email" 
+                aria-label="Email"
+                aria-describedby="basic-addon1"
+                [(ngModel)]="emailcliente"
+                >        
+            </div>
+            </div>
+          </div>
+          <div class=" card-body">
+              <div class="text-center">
+                    <button  (click)="crearCliente()" class="btn btn-success">
+                      <i class="fas fa-check-circle"></i> Crear cliente
+                  </button>
+                  <button  (click)="buscarCliente()" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Buscar cliente
+                </button>
+            <button  (click)="actualizarCliente()" class="btn btn-warning">
+                <i class="fas fa-exchange-alt"></i> Actualizar cliente
+          </button>
+        
+        <button  (click)="borrarCliente()" class="btn btn-danger">
+          <i class="fas fa-backspace"></i> Eliminar cliente
+      </button>
+              </div>
+              <!--
+          <div class="alert alert-success" role="alert" >
+            obtuvo codigo : Dato insertado correctamente
+          </div>
+          <div class="alert alert-warning" role="alert" >
+            obtuvo codigo : Error del servidor, comuniquese con el administrador
+          </div>
+          <div class="alert alert-danger" role="alert" >
+            obtuvo codigo : Error  en la solicitud
+          </div>
+        -->
+          </div>
+      </div>
+  
+  <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+      <div class=" card">
+          <div class=" card-header">
+              <h4 class=" card-title"><i class="fas fa-table"></i> Tabla de clientes</h4>
+          </div>
+          <div class=" card-body">
+              <div class="container">
+                  <table class="compact nowrap stripe hover" datatable [dtOptions]="dtOptions"ng ng 
+                      [dtTrigger]="dtTrigger">
+                      <tbody>
+                          <tr *ngFor="let clientes of contenido" class="">
+                              <td class="text-center">{{clientes.cedulacliente}}</td>
+                              <td class="text-center">{{clientes.nombrecliente}}</td>
+                              <td class="text-center">{{clientes.direccioncliente}}</td>
+                              <td class="text-center">{{clientes.telefonocliente}}</td>
+                              <td class="text-center">{{clientes.emailcliente}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
   </div>
