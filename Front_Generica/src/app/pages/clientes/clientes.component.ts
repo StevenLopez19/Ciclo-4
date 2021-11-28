@@ -14,10 +14,9 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class ClientesComponent implements OnInit {
 
   constructor(
-  private objetohttp: HttpClient, private formBuilder: FormBuilder)
-  { }
+    private objetohttp: HttpClient, private formBuilder: FormBuilder) { }
 
-  public clienteForm : FormGroup;
+  public clienteForm: FormGroup;
   dtOptions: DataTables.Settings = {
     pagingType: "full_numbers",
     columns: [
@@ -93,50 +92,86 @@ export class ClientesComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
-  crearCliente(){
+  crearCliente() {
 
-    console.log(this.clienteForm.value)
-    let nuevoCliente=this.clienteForm.value
-    if (nuevoCliente.nombrecliente!=""&&nuevoCliente.cedulacliente!=null&&nuevoCliente.direccioncliente!=""
-    &&nuevoCliente.telefonocliente!=null&&nuevoCliente.emailcliente!=""){
-    console.log(this.contenido[this.contenido.length-1]._id+1)
-    nuevoCliente._id=this.contenido[this.contenido.length-1]._id+1
-    this.contenido.push(nuevoCliente)
-    this.clienteForm.reset()
-    console.log(this.contenido)
+    let nuevoCliente = this.clienteForm.value
+    if (nuevoCliente.nombrecliente != "" && nuevoCliente.cedulacliente != null && nuevoCliente.direccioncliente != ""
+      && nuevoCliente.telefonocliente != null && nuevoCliente.emailcliente != "") {
+      this.objetohttp
+        .post(this.urlapiGET, nuevoCliente)
+        .pipe(catchError(this.handleError)).subscribe(res =>
+          console.log(res))
+      this.objetohttp
+        .get(this.urlapiGET)
+        .pipe(catchError(this.handleError)).subscribe((datos: any[]) => {
+          this.contenido = datos;
+          console.log(this.contenido);
+
+        });
+      this.clienteForm.reset()
 
     }
 
   }
 
-  consultarClientes(cliente){
+  consultarClientes(cliente) {
     console.log("consultar clientes")
     this.clienteForm.patchValue(cliente)
 
   }
 
-  actualizarClientes(){
+  actualizarClientes() {
     console.log("actualizar clientes")
-    let cliente=this.clienteForm.value
-    if(cliente._id) {
-      var index = this.contenido.findIndex(item => item._id == cliente._id);
-      if(index >= 0) {
-        this.contenido[index] = cliente;
-      }
+    let cliente = this.clienteForm.value
+    if (cliente.id) {
+      console.log(cliente.id)
+      this.objetohttp
+        .put(this.urlapiGET + "/id/" + cliente.id, cliente)
+        .pipe(catchError(this.handleError)).subscribe(res => {
+          console.log(res)
+          this.objetohttp
+            .get(this.urlapiGET)
+            .pipe(catchError(this.handleError)).subscribe((datos: any[]) => {
+              this.contenido = datos;
+              console.log(this.contenido);
+
+            });
+        })
     }
     this.clienteForm.reset()
   }
 
-  borrarClientes(){
+  borrarClientes() {
     console.log("borrar clientes")
-    let cliente=this.clienteForm.value
-    if(cliente._id) {
-      var index = this.contenido.findIndex(item => item._id == cliente._id);
-      if (index >= 0) {
-        this.contenido.splice(index, 1)
-      }
+    let cliente = this.clienteForm.value
+    if (cliente.id) {
+      console.log(cliente.id)
+      this.objetohttp
+        .delete(this.urlapiGET + "/id/" + cliente.id)
+        .pipe(catchError(this.handleError)).subscribe(res => {
+          console.log(res)
+          this.objetohttp
+            .get(this.urlapiGET)
+            .pipe(catchError(this.handleError)).subscribe((datos: any[]) => {
+              this.contenido = datos;
+              console.log(this.contenido);
+
+            });
+        })
     }
     this.clienteForm.reset()
+  }
+
+  buscarClientes () {
+    let cliente = this.clienteForm.value;
+    if (cliente.cedulacliente) {
+      this.objetohttp
+            .get(this.urlapiGET + "/cedula/" + cliente.cedulacliente)
+            .pipe(catchError(this.handleError)).subscribe((datos: any) => {
+              this.clienteForm.patchValue(datos)
+
+            });
+    }
   }
 
 
@@ -144,13 +179,13 @@ export class ClientesComponent implements OnInit {
 
   //FUNCIÓN DE EJECUCIÓN ANTES DE LA CARGA DE LA PAGINA
   ngOnInit(): void {
-    this.clienteForm=this.formBuilder.group({
-      _id:[""],
-      cedulacliente:[""],
-      emailcliente:[""],
-      telefonocliente:[""],
-      direccioncliente:[""],
-      nombrecliente:[""]
+    this.clienteForm = this.formBuilder.group({
+      id: [""],
+      cedulacliente: [""],
+      emailcliente: [""],
+      telefonocliente: [""],
+      direccioncliente: [""],
+      nombrecliente: [""]
     })
     //utilizando el servicio en la url
     this.res = this.objetohttp
@@ -159,109 +194,11 @@ export class ClientesComponent implements OnInit {
 
     //suscribe el archivo json y lo convierte
     this.res.subscribe((datos: any[]) => {
-
+      this.contenido = datos;
       console.log(this.contenido);
 
     });
 
-    this.contenido =  [
-      {
-        _id: 1,
-        cedulacliente: 123,
-        nombrecliente: "Nombre1",
-        direccioncliente: "calle 1",
-        telefonocliente: 435234,
-        emailcliente: "correo@fsdfasd"
-      },
-      {
-        _id: 2,
-        cedulacliente: 123,
-        nombrecliente: "Nombre1",
-        direccioncliente: "calle 1",
-        telefonocliente: 435234,
-        emailcliente: "correo@fsdfasd"
-      },
-      {
-        _id: 3,
-        cedulacliente: 52222854,
-        nombrecliente: "Dario",
-        direccioncliente: "Carrera 30",
-        telefonocliente: 313333333,
-        emailcliente: "dario@gmail.com"
-      },
-      {
-        _id: 4,
-        cedulacliente: 77222555,
-        nombrecliente: "Sebastian",
-        direccioncliente: "Av.Villavicencio",
-        telefonocliente: 444888999,
-        emailcliente: "sebastian@yahoo.com"
-      },
-      {
-        _id: 5,
-        cedulacliente: 45777111,
-        nombrecliente: "Sandra",
-        direccioncliente: "Kra.15",
-        telefonocliente: 555555555,
-        emailcliente: "sandra@hotmail.com"
-      }
-    ]
-
-
-
-    //Opciones especiales de la tabla, localización y caracteristicas
-    this.dtOptions = {
-      pagingType: "full_numbers",
-      columns: [
-        {
-          title: "Cédula",
-        },
-        {
-          title: "Nombre",
-        },
-        {
-          title: "Dirección",
-        },
-        {
-          title: "Teléfono",
-        },
-        {
-          title: "Email",
-        },
-
-      ],
-      pageLength: 10,
-      responsive: true,
-      language: {
-        processing: "Procesando...",
-        search: "Buscar:",
-        lengthMenu: "Mostrar _MENU_ elementos",
-        info: "Mostrando desde _START_ al _END_ de _TOTAL_ elementos",
-        infoEmpty: "Mostrando ningún elemento.",
-        infoFiltered: "(filtrado _MAX_ elementos total)",
-        infoPostFix: "",
-        loadingRecords: "Cargando registros...",
-        zeroRecords: "No se encontraron registros",
-        emptyTable: "No hay datos disponibles en la tabla",
-        paginate: {
-          first: "Primero",
-          previous: "Anterior",
-          next: "Siguiente",
-          last: "Último",
-        },
-        aria: {
-          sortAscending: ": Activar para ordenar la tabla en orden ascendente",
-          sortDescending:
-            ": Activar para ordenar la tabla en orden descendente",
-        },
-      },
-    };
-    this.dtTrigger.next(this.dtOptions);
   }
 
-
-  }
-
-
-
-
+}

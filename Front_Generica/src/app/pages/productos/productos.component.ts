@@ -136,13 +136,13 @@ export class ProductosComponent implements OnInit {
   // En caso de seleccionar archivo, escojer el primer archivo
   onChange(event: any) {
     this.file = event.target.files[0];
+    
   }
 
   // Cuandop haga click, iniciar proceso de envio
   async onUpload() {
-    console.log(this.file);
     this.resultados = await this.fileUploadService.upload(this.file);
-    console.log(this.resultados);
+    
   }
 
 
