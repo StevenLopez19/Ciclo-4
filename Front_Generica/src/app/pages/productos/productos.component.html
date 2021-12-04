@@ -9,36 +9,23 @@
     </button>
   </div>
   <div class="container">
-    <h3 *ngFor="let dato of resultados; let i = index">
+    <h5 *ngFor="let dato of resultados; let i = index">
       Dato {{i}} obtuvo codigo {{dato[0]}}
-    </h3>
+    </h5>
   </div>
 
 
   <table class="compact nowrap table table-dark table-hover table-sm" datatable [dtOptions]="dtOptions"
     [dtTrigger]="dtTrigger">
-
-    <thead>
-      <tr>
-      <th>ID Producto</th>
-      <th>Código Producto</th>
-      <th>IVA Compra</th>
-      <th>NIT Proveedor</th>
-      <th>Nombre Producto</th>
-      <th>Precio Compra</th>
-      <th>Precio Venta</th>
-      </tr>
-      
-      </thead>
     <tbody>
-      <tr *ngFor="let Producto of contenido" class="">
-        <td>{{Producto.id}}</td>
-        <td>{{Producto.codigoproducto}}</td>
-        <td>{{Producto.ivacompra}}</td>
-        <td>{{Producto.nitproveedor}}</td>
-        <td>{{Producto.nombreproducto}}</td>
-        <td>{{Producto.preciocompra}}</td>
-        <td>{{Producto.precioventa}}</td>
+      <tr *ngFor="let productos of contenido" class="">
+        <td>{{productos.id}}</td>
+        <td>{{productos.codigoproducto}}</td>
+        <td>{{productos.nombreproducto}}</td>
+        <td>{{productos.nitproveedor}}</td>
+        <td>{{productos.preciocompra}}</td>
+        <td>{{productos.ivacompra}}</td>
+        <td>{{productos.precioventa}}</td>
       </tr>
     </tbody>
   </table>

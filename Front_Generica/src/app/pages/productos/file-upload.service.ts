@@ -31,25 +31,32 @@ export class FileUploadService {
         for (let lineaactual of separados) {
           lineaactual.replace(";", ",");
           let columnas = lineaactual.split(",", 6);
-          this.http.post(
-            this.baseApiUrl,
-            {
-              codigoproducto: columnas[5],
-              ivacompra: columnas[4],
-              nitproveedor: columnas[3],
-              nombreproducto: columnas[2],
-              preciocompra: columnas[1],
-              precioventa: columnas[0]
-            },
-            { observe: 'response' }).subscribe(
-              (response: any) => {
-                let resaux = [];
-                resaux[0] = response.status;
-                this.resultados.push(resaux);
-              }
-            );
+          let objeto = {
+            precioventa: parseInt(columnas[5]),
+            ivacompra: parseInt(columnas[1]),
+            preciocompra: parseInt(columnas[4]),
+            nitproveedor: parseInt(columnas[2]),
+            nombreproducto: columnas[3],
+            codigoproducto: parseInt(columnas[0])
+
+
+          }
+          if (objeto.precioventa && objeto.ivacompra) {
+            console.log(objeto);
+            this.http.post(
+              this.baseApiUrl,
+              objeto,
+              { observe: 'response' }).subscribe(
+                (response: any) => {
+                  let resaux = [];
+                  resaux[0] = response.status;
+                  this.resultados.push(resaux);
+                }
+              );
+          }
+
         }
-        //console.log(this.resultados);
+        
         resolve(this.resultados);
       };
       reader.readAsText(file);
