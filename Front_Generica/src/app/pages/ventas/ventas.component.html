@@ -1,1 +1,197 @@
-<div class=" content"></div>
+<div class=" content" >
+
+
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+        <div class=" card">
+            <div class=" card-header">
+                <h4 class=" card-title"> <i class="fas fa-cart-arrow-down"></i> Inserción de Ventas</h4>
+
+                <div class="input-group mb-3" >
+                  <span 
+                  class="input-group-text" 
+                  id="basic-addon1">
+                  <i class="fas fa-id-card"></i>
+              </span>
+                  <input 
+                  type="text"
+                  
+                  placeholder="Cédula de Cliente" 
+                  aria-label="Cédula de Cliente"
+                  aria-describedby="basic-addon1"
+                  [(ngModel)]="cedulaclienteventas"                       
+                  >
+                  
+                    <button (click)="buscarClienteV()"  class="btn btn-success btn-sm">
+                      <i class="fas fa-search"></i> Consultar
+                  </button>
+                  
+                  
+                  <span class="input-group-text" 
+                  id="basic-addon1">
+                  <i class="fas fa-user"></i>
+              </span>
+
+                
+                  <input 
+                  
+                  type="text"  
+                  
+                  placeholder="Cliente"
+                  aria-label="Cliente"
+                  aria-describedby="basic-addon1"
+                  [(ngModel)]="nombreclienteventas"
+                  >
+                  
+                  <span class="input-group-text" 
+                  id="basic-addon1">
+                  <i class="fas fa-list-ol"></i>
+                  
+              </span>
+                  <input 
+                  
+                  type="text"  
+                  placeholder="Consecutivo" 
+                  aria-label="Consecutivo"
+                  aria-describedby="basic-addon1"
+                  
+                  >
+              </div>
+              
+              <div class="input-group mb-3">
+                  
+                          <input 
+                          type="text"
+                          
+                          placeholder="Código de Producto" 
+                          aria-label="Código de Producto"
+                          aria-describedby="basic-addon1"
+                          [(ngModel)]="codigoproducto"                               
+                          >
+                          
+                            <button (click)="buscarProducto()"  class="btn btn-success btn-sm">
+                              <i class="fas fa-search"></i> Consultar
+                          </button>
+                       
+         
+                          <input type="text"  
+                          
+                          placeholder="Nombre de Producto"
+                          aria-label="Nombre de Producto"
+                          aria-describedby="basic-addon1"
+                          [(ngModel)]="nombreproducto1"
+                          >
+                          
+                          <input type="text"  
+                          placeholder="Cantidad" 
+                          aria-label="Cantidad"
+                          aria-describedby="basic-addon1"
+                          
+                          >
+                          <input type="text"  
+                          placeholder="Valor Total" 
+                          aria-label="Valor Total"
+                          aria-describedby="basic-addon1"
+                          [(ngModel)]="valortotal1"
+                          >
+                          <div class="input-group mb-3">
+                  
+                            <input 
+                            type="text"
+                            
+                            placeholder="Código de Producto" 
+                            aria-label="Código de Producto"
+                            aria-describedby="basic-addon1"
+                            [(ngModel)]="codigoproducto2"                       
+                            >
+                            
+                              <button  (click)="buscarProducto2()" class="btn btn-success btn-sm">
+                                <i class="fas fa-search"></i> Consultar
+                            </button>
+                         
+           
+                            <input type="text"  
+                            
+                            placeholder="Nombre de Producto"
+                            aria-label="Nombre de Producto"
+                            aria-describedby="basic-addon1"
+                            [(ngModel)]="nombreproducto2"
+                            >
+                            
+                            <input type="text"  
+                            placeholder="Cantidad" 
+                            aria-label="Cantidad"
+                            aria-describedby="basic-addon1"
+                            
+                            >
+                            <input type="text"  
+                            placeholder="Valor Total" 
+                            aria-label="Valor Total"
+                            aria-describedby="basic-addon1"
+                            [(ngModel)]="valortotal2"
+                            >
+                            <div class="input-group mb-3">
+                  
+                            <input 
+                            type="text"
+                            
+                            placeholder="Código de Producto" 
+                            aria-label="Código de Producto"
+                            aria-describedby="basic-addon1"
+                            [(ngModel)]="codigoproducto3"                       
+                            >
+                            
+                              <button (click)="buscarProducto3()" class="btn btn-success btn-sm">
+                                <i class="fas fa-search"></i> Consultar
+                            </button>
+                         
+           
+                            <input type="text"  
+                            
+                            placeholder="Nombre de Producto"
+                            aria-label="Nombre de Producto"
+                            aria-describedby="basic-addon1"
+                            [(ngModel)]="nombreproducto3"
+                            >
+                            
+                            <input type="text"  
+                            placeholder="Cantidad" 
+                            aria-label="Cantidad"
+                            aria-describedby="basic-addon1"
+                            
+                            >
+                            <input 
+                            type="text"  
+                            placeholder="Valor Total" 
+                            aria-label="Valor Total"
+                            aria-describedby="basic-addon1"
+                            [(ngModel)]="valortotal3"
+                            >
+                      </div>                 
+
+<div class=" content" >
+    <div class="input-group mb-3" >
+        <input 
+                            type="text"  
+                            placeholder="Total Venta" 
+                            aria-label="Total Venta"
+                            aria-describedby="basic-addon1"
+                            
+                            >
+
+                            <input 
+                            type="text"  
+                            placeholder="Total Iva" 
+                            aria-label="Total Iva"
+                            aria-describedby="basic-addon1"
+                            
+                            >
+                            
+                            <input 
+                            type="text"  
+                            placeholder="Total con Iva" 
+                            aria-label="Total con Iva"
+                            aria-describedby="basic-addon1"
+                            
+                            >
+
+    </div>
