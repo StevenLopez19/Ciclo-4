@@ -106,7 +106,7 @@ export class ClientesComponent implements OnInit {
   emailcliente:"";
   cc:"";
   codigorespuesta:number
-
+  contenido2:any;
 
 
   crearCliente(){
@@ -131,12 +131,13 @@ export class ClientesComponent implements OnInit {
 //GET BUSCAR//
 buscarCliente(){
 this.clientesService.buscar(this.cedulacliente).subscribe((cliente:any[])=>{
+this.contenido2=cliente;
 console.log(cliente);
 
-this.nombrecliente=cliente[0].nombrecliente;
-this.direccioncliente=cliente[0].direccioncliente;
-this.telefonocliente=cliente[0].telefonocliente;
-this.emailcliente=cliente[0].emailcliente;
+this.nombrecliente=this.contenido2.nombrecliente;
+this.direccioncliente=this.contenido2.direccioncliente;
+this.telefonocliente=this.contenido2.telefonocliente;
+this.emailcliente=this.contenido2.emailcliente;
 
 });
 }

@@ -18,6 +18,8 @@ export class ClientesService {
     );
   }
 
+
+  
   actualizar(cedulacliente:String, cliente:any){
     return this.httpObject.put(this.apiUrl+'/cedula/'+cedulacliente,cliente);
   }
