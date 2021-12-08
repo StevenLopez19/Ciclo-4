@@ -1,1 +1,65 @@
-<div class=" content"></div>
+<div class=" content">
+
+    <div class="container">
+        <div class=" card-body">
+            <div class="text-center">
+                <button (click)="listadoCliente()" class="btn btn-success">
+                    <i class="fas fa-check-circle"></i> Listado de Clientes
+                </button>
+                <button (click)="ventasCliente()" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Ventas por Cliente
+                </button>
+            </div>
+
+        </div>
+        
+        
+
+    </div>
+    <div *ngIf="mostrarListado == cliente">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+            <div class=" card">
+                <div class=" card-header">
+                    <h4 class=" card-title"><i class="fas fa-table"></i> Tabla de clientes</h4>
+                </div>
+                <div class=" card-body">
+                    <div class="container">
+                        <table class="compact nowrap stripe hover" datatable [dtOptions]="dtOptions" ng ng
+                            [dtTrigger]="dtTrigger">
+                            <tbody>
+                                <tr *ngFor="let clientes of contenido" class="">
+                                    <td class="text-center">{{clientes.cedulacliente}}</td>
+                                    <td class="text-center">{{clientes.nombrecliente}}</td>
+                                    <td class="text-center">{{clientes.direccioncliente}}</td>
+                                    <td class="text-center">{{clientes.telefonocliente}}</td>
+                                    <td class="text-center">{{clientes.emailcliente}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="mostrarListado == ventas"> <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+        <div class=" card">
+            <div class=" card-header">
+                <h4 class=" card-title"><i class="fas fa-table"></i> Ventas por Cliente</h4>
+            </div>
+            <div class=" card-body">
+                <div class="container">
+                    <table class="compact nowrap stripe hover" datatable [dtOptions]="dtOptions2" ng ng
+                        [dtTrigger]="dtTrigger">
+                        <tbody>
+                            <tr *ngFor="let reporte of contenido2" class="">
+                                <td class="text-center">{{reporte.cedulacliente}}</td>
+                                <td class="text-center">{{reporte.nombrecliente}}</td>
+                                <td class="text-center">{{reporte.totalventas | currency}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div></div>
+</div>

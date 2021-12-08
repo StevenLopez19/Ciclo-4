@@ -1,79 +1,92 @@
 <div class=" content">
 
-    <div class="container">
 
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+        <div class=" card">
+            <div class=" card-header">
+                <h4 class=" card-title"> <i class="fas fa-users-cog"></i> Procedimientos de Clientes</h4>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="fas fa-id-card"></i>
+                    </span>
+                    <input type="text" placeholder="Cédula" aria-label="Cédula" aria-describedby="basic-addon1"
+                        [(ngModel)]="cedulacliente">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="fas fa-signature"></i>
+                    </span>
+                    <input type="text" placeholder="Nombre" aria-label="Nombre" aria-describedby="basic-addon1"
+                        [(ngModel)]="nombrecliente">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                    <input type="text" placeholder="Dirección" aria-label="Dirección" aria-describedby="basic-addon1"
+                        [(ngModel)]="direccioncliente">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="fas fa-phone-alt"></i>
+                    </span>
+                    <input type="text" placeholder="Teléfono" aria-label="Teléfono" aria-describedby="basic-addon1"
+                        [(ngModel)]="telefonocliente">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                    <input type="text" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1"
+                        [(ngModel)]="emailcliente">
+                </div>
+            </div>
+        </div>
+        <div class=" card-body">
+            <div class="text-center">
+                <button (click)="crearCliente()" class="btn btn-success">
+                    <i class="fas fa-check-circle"></i> Crear cliente
+                </button>
+                <button (click)="buscarCliente()" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Buscar cliente
+                </button>
+                <button (click)="actualizarCliente()" class="btn btn-warning">
+                    <i class="fas fa-exchange-alt"></i> Actualizar cliente
+                </button>
+
+                <button (click)="borrarCliente()" class="btn btn-danger">
+                    <i class="fas fa-backspace"></i> Eliminar cliente
+                </button>
+            </div>
+            <!--
+          <div class="alert alert-success" role="alert" >
+            obtuvo codigo : Dato insertado correctamente
+          </div>
+          <div class="alert alert-warning" role="alert" >
+            obtuvo codigo : Error del servidor, comuniquese con el administrador
+          </div>
+          <div class="alert alert-danger" role="alert" >
+            obtuvo codigo : Error  en la solicitud
+          </div>
+        -->
+        </div>
     </div>
 
-
-
-
-  <button style="margin: 40px" class="btn btn-success btn-lg" (click)="crearCliente()"> Crear </button>
-  <button style="margin: 50px" class="btn btn-success btn-lg" (click)="actualizarClientes()"> Actualizar</button>
-  <button style="margin: 40px" class="btn btn-success btn-lg" (click)="borrarClientes()"> Borrar</button>
-  <button style="margin: 40px" class="btn btn-success btn-lg" (click)="buscarClientes()"> Buscar por Cedula</button>
-  <form id="userForm" [formGroup]="clienteForm">
-    <div class="form-group">
-      <label for="name">Nombres</label>
-      <input type="text" id="name" formControlName="nombrecliente" class="form-control"
-        fullWidth />
-      </div>
-      <div class="form-group">
-        <label for="cedula">Cedula</label>
-        <input type="number" id="cedula" formControlName="cedulacliente" class="form-control"
-          fullWidth />
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+        <div class=" card">
+            <div class=" card-header">
+                <h4 class=" card-title"><i class="fas fa-table"></i> Tabla de clientes</h4>
+            </div>
+            <div class=" card-body">
+                <div class="container">
+                    <table class="compact nowrap stripe hover" datatable [dtOptions]="dtOptions" ng ng
+                        [dtTrigger]="dtTrigger">
+                        <tbody>
+                            <tr *ngFor="let clientes of contenido" class="">
+                                <td class="text-center">{{clientes.cedulacliente}}</td>
+                                <td class="text-center">{{clientes.nombrecliente}}</td>
+                                <td class="text-center">{{clientes.direccioncliente}}</td>
+                                <td class="text-center">{{clientes.telefonocliente}}</td>
+                                <td class="text-center">{{clientes.emailcliente}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      <div class="form-group">
-          <label for="direccion">Direccion</label>
-          <input type="text" id="direccion" formControlName="direccioncliente" class="form-control"
-            fullWidth />
-        </div>
-        <div class="form-group">
-          <label for="telefono">Telefono</label>
-          <input type="text" id="telefono" formControlName="telefonocliente" class="form-control"
-            fullWidth />
-        </div>
-        <div class="form-group">
-          <label for="email">E-Mail</label>
-          <input type="email" id="email" formControlName="emailcliente" class="form-control"
-            fullWidth />
-        </div>
-
-  </form>
-
-
-
-
-
-
-
-
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Acciones</th>
-        <th scope="col">Cedula</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Direccion</th>
-        <th scope="col">Telefono</th>
-        <th scope="col">Email</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let clientes of contenido">
-
-        <td><button class="btn btn-success"  (click)="consultarClientes(clientes)"> Mostrar</button></td>
-        <td>{{clientes.cedulacliente}}</td>
-          <td>{{clientes.nombrecliente}}</td>
-          <td>{{clientes.direccioncliente}}</td>
-          <td>{{clientes.telefonocliente}}</td>
-          <td>{{clientes.emailcliente}}</td>
-      </tr>
-    </tbody>
-  </table>
+    </div>
 </div>
-
-
-
-
-

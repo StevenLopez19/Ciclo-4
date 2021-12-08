@@ -1,9 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Subject, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
-import { ArrayType } from "@angular/compiler";
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { ClientesService } from './clientes.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -13,56 +12,13 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class ClientesComponent implements OnInit {
 
-  constructor(
-    private objetohttp: HttpClient, private formBuilder: FormBuilder) { }
 
-  public clienteForm: FormGroup;
-  dtOptions: DataTables.Settings = {
-    pagingType: "full_numbers",
-    columns: [
-      {
-        title: "Cédula",
-      },
-      {
-        title: "Nombre",
-      },
-      {
-        title: "Dirección",
-      },
-      {
-        title: "Teléfono",
-      },
-      {
-        title: "Email",
-      },
+  //Función constructora
+  constructor(private objetohttp: HttpClient, private clientesService:ClientesService, private toastr:ToastrService) { }
 
-    ],
-    pageLength: 10,
-    responsive: true,
-    language: {
-      processing: "Procesando...",
-      search: "Buscar:",
-      lengthMenu: "Mostrar _MENU_ elementos",
-      info: "Mostrando desde _START_ al _END_ de _TOTAL_ elementos",
-      infoEmpty: "Mostrando ningún elemento.",
-      infoFiltered: "(filtrado _MAX_ elementos total)",
-      infoPostFix: "",
-      loadingRecords: "Cargando registros...",
-      zeroRecords: "No se encontraron registros",
-      emptyTable: "No hay datos disponibles en la tabla",
-      paginate: {
-        first: "Primero",
-        previous: "Anterior",
-        next: "Siguiente",
-        last: "Último",
-      },
-      aria: {
-        sortAscending: ": Activar para ordenar la tabla en orden ascendente",
-        sortDescending:
-          ": Activar para ordenar la tabla en orden descendente",
-      },
-    },
-  };;
+  ///////////////// GET /////////////////////////////
+  //opciones y objeto revisor de la tabla
+  dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
 
   //variable receptora de documentos
@@ -72,133 +28,191 @@ export class ClientesComponent implements OnInit {
   //url api get
   urlapiGET: string = "http://localhost:8080/api/clientes";
 
-  //FUNCIÓN DE CONTROL DE ERRORES
-  handleError(error: HttpErrorResponse) {
-    let errorMessage = "Error desconocido!";
-    if (error.error instanceof ErrorEvent) {
-      // Errores del lado del cliente
-      errorMessage = `Error: ${error.error.message}\n ${error.status}`;
-    } else {
-      // Errores del lado del servidor
-      errorMessage = `Codigo de Error: ${error.status} \nMensaje: ${error.message}`;
-    }
-    //MOSTRANDO UN ERROR EN UNA ALERTA
-    //window.alert(errorMessage);
-    return throwError(errorMessage);
-  }
-
-  //eliminando objeto revisor de cambios de la tabla
+  //aliminando objeto revisor de cambios de la tabla
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
 
-  crearCliente() {
-
-    let nuevoCliente = this.clienteForm.value
-    if (nuevoCliente.nombrecliente != "" && nuevoCliente.cedulacliente != null && nuevoCliente.direccioncliente != ""
-      && nuevoCliente.telefonocliente != null && nuevoCliente.emailcliente != "") {
-      this.objetohttp
-        .post(this.urlapiGET, nuevoCliente)
-        .pipe(catchError(this.handleError)).subscribe(res =>
-          console.log(res))
-      this.objetohttp
-        .get(this.urlapiGET)
-        .pipe(catchError(this.handleError)).subscribe((datos: any[]) => {
-          this.contenido = datos;
-          console.log(this.contenido);
-
-        });
-      this.clienteForm.reset()
-
-    }
-
-  }
-
-  consultarClientes(cliente) {
-    console.log("consultar clientes")
-    this.clienteForm.patchValue(cliente)
-
-  }
-
-  actualizarClientes() {
-    console.log("actualizar clientes")
-    let cliente = this.clienteForm.value
-    if (cliente.id) {
-      console.log(cliente.id)
-      this.objetohttp
-        .put(this.urlapiGET + "/id/" + cliente.id, cliente)
-        .pipe(catchError(this.handleError)).subscribe(res => {
-          console.log(res)
-          this.objetohttp
-            .get(this.urlapiGET)
-            .pipe(catchError(this.handleError)).subscribe((datos: any[]) => {
-              this.contenido = datos;
-              console.log(this.contenido);
-
-            });
-        })
-    }
-    this.clienteForm.reset()
-  }
-
-  borrarClientes() {
-    console.log("borrar clientes")
-    let cliente = this.clienteForm.value
-    if (cliente.id) {
-      console.log(cliente.id)
-      this.objetohttp
-        .delete(this.urlapiGET + "/id/" + cliente.id)
-        .pipe(catchError(this.handleError)).subscribe(res => {
-          console.log(res)
-          this.objetohttp
-            .get(this.urlapiGET)
-            .pipe(catchError(this.handleError)).subscribe((datos: any[]) => {
-              this.contenido = datos;
-              console.log(this.contenido);
-
-            });
-        })
-    }
-    this.clienteForm.reset()
-  }
-
-  buscarClientes () {
-    let cliente = this.clienteForm.value;
-    if (cliente.cedulacliente) {
-      this.objetohttp
-            .get(this.urlapiGET + "/cedula/" + cliente.cedulacliente)
-            .pipe(catchError(this.handleError)).subscribe((datos: any) => {
-              this.clienteForm.patchValue(datos)
-
-            });
-    }
-  }
-
-
-  ///////////////// METODOS ANGULAR /////////////////////////////
-
   //FUNCIÓN DE EJECUCIÓN ANTES DE LA CARGA DE LA PAGINA
   ngOnInit(): void {
-    this.clienteForm = this.formBuilder.group({
-      id: [""],
-      cedulacliente: [""],
-      emailcliente: [""],
-      telefonocliente: [""],
-      direccioncliente: [""],
-      nombrecliente: [""]
-    })
-    //utilizando el servicio en la url
-    this.res = this.objetohttp
-      .get(this.urlapiGET)
-      .pipe(catchError(this.handleError));
+    try { 
+      this.res = this.objetohttp.get(this.urlapiGET);
+      this.res.subscribe((datos: any[]) => {
+        this.contenido = datos;
+        console.log(this.contenido);
+        this.dtTrigger.next(this.dtOptions);
+      });
+    }
+    catch (e) {
+      console.error("BK DOWN");
+      this.contenido=[]
+    }
 
-    //suscribe el archivo json y lo convierte
-    this.res.subscribe((datos: any[]) => {
-      this.contenido = datos;
-      console.log(this.contenido);
 
-    });
-
+    //Opciones especiales de la tabla, localización y caracteristicas
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      columns: [{
+        title: 'CÉDULA',
+      },
+      {
+        title: 'NOMBRE',
+      },
+      {
+        title: 'DIRECCIÓN',
+      },
+      {
+        title: 'TELÉFONO',
+      },
+      {
+        title: 'EMAIL',
+      },
+      ],
+      pageLength: 10,
+      responsive: true,
+      language: {
+        processing: "Procesando...",
+        search: "Buscar:",
+        lengthMenu: "Mostrar _MENU_ elementos",
+        info: "Mostrando desde _START_ al _END_ de _TOTAL_ elementos",
+        infoEmpty: "Mostrando ningún elemento.",
+        infoFiltered: "(filtrado _MAX_ elementos total)",
+        infoPostFix: "",
+        loadingRecords: "Cargando registros...",
+        zeroRecords: "No se encontraron registros",
+        emptyTable: "No hay datos disponibles en la tabla",
+        paginate: {
+          first: "Primero",
+          previous: "Anterior",
+          next: "Siguiente",
+          last: "Último"
+        },
+        aria: {
+          sortAscending: ": Activar para ordenar la tabla en orden ascendente",
+          sortDescending: ": Activar para ordenar la tabla en orden descendente"
+        }
+      }
+    };
   }
 
+
+
+    
+  //POST// 
+  cedulacliente:"";
+  nombrecliente:"";
+  direccioncliente:"";
+  telefonocliente:"";
+  emailcliente:"";
+  cc:"";
+  codigorespuesta:number
+  contenido2:any;
+
+
+  crearCliente(){
+  this.objetohttp.post<any>(
+    "http://localhost:8080/api/clientes",
+    {
+      "cedulacliente":this.cedulacliente,
+      "nombrecliente":this.nombrecliente,
+      "direccioncliente":this.direccioncliente,
+      "telefonocliente":this.telefonocliente,
+      "emailcliente":this.emailcliente
+    },
+    {observe:'response'}
+    ).subscribe(response=>{
+      this.codigorespuesta=response.status;
+  });
+  console.log(this.codigorespuesta);
+  this.showNotification('top','center',1);
+  window.location.reload();
 }
+
+//GET BUSCAR//
+buscarCliente(){
+this.clientesService.buscar(this.cedulacliente).subscribe((cliente:any[])=>{
+this.contenido2=cliente;
+console.log(cliente);
+
+this.nombrecliente=this.contenido2.nombrecliente;
+this.direccioncliente=this.contenido2.direccioncliente;
+this.telefonocliente=this.contenido2.telefonocliente;
+this.emailcliente=this.contenido2.emailcliente;
+
+});
+}
+
+
+
+
+actualizarCliente(){
+let cliente={
+  cedulacliente:this.cedulacliente,
+  nombrecliente:this.nombrecliente,
+  direccioncliente:this.direccioncliente,
+  telefonocliente:this.telefonocliente,
+  emailcliente:this.emailcliente
+};
+
+this.clientesService.actualizar(this.cedulacliente,cliente).subscribe((cliente)=>{
+  this.nombrecliente="";
+  this.direccioncliente="";
+  this.telefonocliente="";
+  this.emailcliente="";
+
+  this.showNotification('top','center',3);
+  this.nombrecliente="";
+  this.direccioncliente="";
+  this.telefonocliente="";
+  this.emailcliente="";
+  window.location.reload();
+
+})
+}
+
+
+//DELETE//
+borrarCliente(){
+this.clientesService.borrar(this.cedulacliente).subscribe(()=>{
+  this.cedulacliente="";
+  this.showNotification('top','center',2);
+  window.location.reload();
+})
+}
+
+showNotification(from, align,type) {
+  switch (type) {
+    case 1:
+      this.toastr.success('<span class="tim-icons icon-bell-55" [data-notify]="icon"></span><b>Cliente Creado con éxito</b>', '', {
+        disableTimeOut: false,
+        closeButton: true,
+        enableHtml: true,
+        toastClass: 'alert alert-success alert-with-icon',
+        positionClass: 'toast-' + from + '-' + align
+      });
+      break;
+    case 2:
+      this.toastr.error('<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> <b>Cliente elimiando con éxito</b>', '', {
+        disableTimeOut: false,
+        enableHtml: true,
+        closeButton: true,
+        toastClass: 'alert alert-danger alert-with-icon',
+        positionClass: 'toast-' + from + '-' + align
+      });
+      break;
+      case 3:
+        this.toastr.error('<span class="tim-icons icon-bell-55" [data-notify]="icon"></span> <b>Cliente actualizado con éxito</b>', '', {
+          disableTimeOut: false,
+          enableHtml: true,
+          closeButton: true,
+          toastClass: 'alert alert-warning alert-with-icon',
+          positionClass: 'toast-' + from + '-' + align
+        });
+        break;
+    default:
+      break;
+
+}
+}
+}
+
